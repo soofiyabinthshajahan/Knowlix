@@ -15,7 +15,7 @@ function App() {
       <AboutSection />
       <ServiceSection />
       <CoursesPage />
-{/* <TestimonialPage/>   */}
+<TestimonialPage/>  
   </div>
   );
 }

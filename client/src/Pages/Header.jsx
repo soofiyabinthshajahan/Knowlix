@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { FiSearch, FiBell, FiSun, FiMoon } from "react-icons/fi";
+import { FiSearch, FiBell, FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi";
 
 const HeaderSection = styled.header`
   height: 10vh;
@@ -23,27 +23,25 @@ const Logo = styled.div`
   gap: 10px;
 
   img {
-    width: 100px;
-    height: 80px;
+    width: 90px;
+    height: 60px;
     object-fit: contain;
-  }
-
-  span {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #0f3d2e;
   }
 `;
 
 const SearchBar = styled.div`
   flex: 1;
-  max-width: 500px;
+  max-width: 400px;
   display: flex;
   align-items: center;
   border: 2px solid rgba(15, 61, 46, 0.3);
   border-radius: 20px;
-  padding: 8px 15px;
-  margin: 0 40px;
+  padding: 6px 14px;
+  margin: 0 20px;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -64,14 +62,34 @@ const Navigation = styled.nav`
   display: flex;
   align-items: center;
   gap: 25px;
+
+  @media (max-width: 992px) {
+    display: none;
+  }
+`;
+
+const MobileMenuIcon = styled.div`
+  display: none;
+  font-size: 1.8rem;
+  color: #0f3d2e;
+  cursor: pointer;
+
+  @media (max-width: 992px) {
+    display: block;
+  }
 `;
 
 const HeaderElements = styled.ul`
   display: flex;
   list-style: none;
-  gap: 25px;
+  gap: 20px;
   margin: 0;
   padding: 0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const Element = styled.li`
@@ -80,6 +98,10 @@ const Element = styled.li`
   font-weight: 400;
   color: #477e6a;
   transition: color 0.3s ease;
+
+  &:hover {
+    color: #158a68;
+  }
 `;
 
 const Button = styled.button`
@@ -94,6 +116,10 @@ const Button = styled.button`
 
   &:hover {
     background-color: #158a68;
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 15px;
   }
 `;
 
@@ -114,43 +140,80 @@ const IconWrapper = styled.div`
   }
 `;
 
+const MobileMenu = styled.div`
+  position: absolute;
+  top: 10vh;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  padding: 20px 5%;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 function Header() {
-  const [isDark, setIsDark] = React.useState(false);
+  const [isDark, setIsDark] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const toggleTheme = () => setIsDark(!isDark);
+  const toggleMobileMenu = () => setShowMobileMenu(!showMobileMenu);
 
   return (
-    <HeaderSection>
-      <Logo>
-        <img src="/Logo.jpg" alt="Logo" />
-      </Logo>
+    <>
+      <HeaderSection>
+        <Logo>
+          <img src="/Logo.jpg" alt="Logo" />
+        </Logo>
 
-      <SearchBar>
-        <FiSearch color="#14432b" size={20} />
-        <SearchInput type="text" placeholder="Search..." />
-      </SearchBar>
+        <SearchBar>
+          <FiSearch color="#14432b" size={20} />
+          <SearchInput type="text" placeholder="Search..." />
+        </SearchBar>
 
-      <Navigation>
-        <HeaderElements>
-          <Element>Home</Element>
-          <Element>About</Element>
-          <Element>Courses</Element>
-          <Element>Programmes</Element>
-          <Element>Team</Element>
-          <Element>Career</Element>
-          <Element>Contact</Element>
-        </HeaderElements>
-        <Button>Book a Demo</Button>
-        <IconWrapper>
-          <FiBell />
-          {isDark ? (
-            <FiSun onClick={toggleTheme} />
-          ) : (
-            <FiMoon onClick={toggleTheme} />
-          )}
-        </IconWrapper>
-      </Navigation>
-    </HeaderSection>
+        <Navigation>
+          <HeaderElements>
+            <Element>Home</Element>
+            <Element>About</Element>
+            <Element>Courses</Element>
+            <Element>Programmes</Element>
+            <Element>Team</Element>
+            <Element>Career</Element>
+            <Element>Contact</Element>
+          </HeaderElements>
+          <Button>Book a Demo</Button>
+          <IconWrapper>
+            <FiBell />
+            {isDark ? <FiSun onClick={toggleTheme} /> : <FiMoon onClick={toggleTheme} />}
+          </IconWrapper>
+        </Navigation>
+
+        <MobileMenuIcon onClick={toggleMobileMenu}>
+          {showMobileMenu ? <FiX /> : <FiMenu />}
+        </MobileMenuIcon>
+      </HeaderSection>
+
+      {showMobileMenu && (
+        <MobileMenu>
+          <HeaderElements>
+            <Element>Home</Element>
+            <Element>About</Element>
+            <Element>Courses</Element>
+            <Element>Programmes</Element>
+            <Element>Team</Element>
+            <Element>Career</Element>
+            <Element>Contact</Element>
+          </HeaderElements>
+          <Button>Book a Demo</Button>
+          <IconWrapper>
+            <FiBell />
+            {isDark ? <FiSun onClick={toggleTheme} /> : <FiMoon onClick={toggleTheme} />}
+          </IconWrapper>
+        </MobileMenu>
+      )}
+    </>
   );
 }
 

@@ -3,87 +3,126 @@ import styled from "styled-components";
 const testimonials = [
   {
     quote:
-      "They brought incredible value to our agency marketplace. With a focus on usability and scalability, they crafted a design system that allows us to easily onboard new agencies.",
-    name: "Sophia Chang",
-    company: "Microsoft",
+      "My Tutor’s guidance proved to be a game-changer, and we're grateful for their support.",
+    name: "Adil S/O Muhammad",
+    company: "Commerce Student",
     image: "https://via.placeholder.com/300x300",
     feedbacks: [
       {
-        name: "Ryan Lee",
+        name: "Adil S/O Muhammad",
         comment:
-          "Their approach to our marketplace redesign was spot-on. They crafted a solution that accommodates our platform's growth while providing an intuitive experience for users.",
-        stars: 5
+          "My son faced challenges in Accountancy, but My Tutor’s helpful tutors helped him improve remarkably. He gained confidence within days!",
+        stars: 5,
       },
+    ],
+  },
+  {
+    quote:
+      "We are so grateful to My Tutor for making this incredible transformation possible!",
+    name: "Adhila D/O Sajna",
+    company: "Science Student",
+    image: "https://via.placeholder.com/300x300",
+    feedbacks: [
       {
-        name: "Grace Bell",
+        name: "Adhila D/O Sajna",
         comment:
-          "They brought clarity and sophistication to our marketplace design. Now, clients can effortlessly connect with agencies, creating a smoother experience and driving better engagement. We couldn't be happier with the outcome.",
-        stars: 5
+          "Physics was tough for my daughter, but thanks to My Tutor's expert tutors and their 24x7 support, she now loves the subject and excels in it.",
+        stars: 5,
       },
+    ],
+  },
+  {
+    quote:
+      "After a few days, he mastered the subject’s basics, and now he is able to write and read Hindi easily.",
+    name: "Aflah S/O Sulaiman",
+    company: "Class 9 Student",
+    image: "https://via.placeholder.com/300x300",
+    feedbacks: [
       {
-        name: "Noah Kim",
+        name: "Aflah S/O Sulaiman",
         comment:
-          "Their design transformed our user journey. The platform is now clean, efficient, and visually appealing, making it easier for clients to find the right agencies. Their insights on scalability were a huge plus for our team.",
-        stars: 5
+          "My son had a weak base in Hindi, but after joining My Tutor’s Hindi Foundation course, he quickly picked up reading and writing skills.",
+        stars: 5,
       },
+    ],
+  },
+  {
+    quote:
+      "A top-notch educational resource that makes complex topics easy to understand!",
+    name: "Fathima",
+    company: "Plus One Science Student",
+    image: "https://via.placeholder.com/300x300",
+    feedbacks: [
       {
-        name: "Emily Nguyen",
+        name: "Fathima",
         comment:
-          "From initial concept to final design, they were instrumental in shaping a cohesive, user-friendly platform. Their expertise in marketplace dynamics helped us attract more clients and agencies alike. A game-changer for PartnerMarket!",
-        stars: 5
-      }
-    ]
-  }
+          "The platform is excellent! Classes are engaging, instructors are knowledgeable, and everything is simple to navigate. I highly recommend it.",
+        stars: 5,
+      },
+    ],
+  },
 ];
 
 const Wrapper = styled.section`
   background: #062e26;
   color: #fff;
-  padding: 60px 5%;
+  padding: 60px 2%;
   font-family: sans-serif;
 `;
 
-const Header = styled.div`
+const TestimonialsRow = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 40px;
+  gap: 30px;
   justify-content: center;
+`;
+
+const TestimonialCard = styled.div`
+  background: #0a3e33;
+  padding: 30px 20px;
+  border-radius: 15px;
+  width: 320px;
+  text-align: center;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 50px;
 `;
 
 const Quote = styled.blockquote`
-  flex: 1;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  font-style: italic;
   line-height: 1.6;
+  margin-bottom: 15px;
 `;
 
 const Author = styled.div`
-  margin-top: 20px;
   font-weight: bold;
+  color: #9ee3d8;
+  margin-bottom: 15px;
 `;
 
 const Image = styled.img`
-  max-width: 300px;
-  border-radius: 10px;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  border: 2px solid #ffffff20;
 `;
 
-const FeedbackGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-`;
-
-const FeedbackCard = styled.div`
-  background: #0a3e33;
-  padding: 20px;
+const Feedback = styled.div`
+  background: #113c32;
+  padding: 15px;
   border-radius: 10px;
   color: #dff5f0;
+  margin-top: auto;
 `;
 
 const StarRating = styled.div`
   color: gold;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
 `;
 
 const Footer = styled.footer`
@@ -120,37 +159,35 @@ const TestimonialPage = () => {
   return (
     <>
       <Wrapper>
-        {testimonials.map((t, idx) => (
-          <div key={idx}>
-            <Header>
-              <Quote>
-                "{t.quote}"
-                <Author>
-                  – {t.name}, <span style={{ color: "#9ee3d8" }}>{t.company}</span>
-                </Author>
-              </Quote>
-              <Image src={t.image} alt={t.name} />
-            </Header>
-            <FeedbackGrid>
+        <TestimonialsRow>
+          {testimonials.map((t, idx) => (
+            <TestimonialCard key={idx}>
+              {/* <Image src={t.image} alt={t.name} /> */}
+              <Quote>"{t.quote}"</Quote>
               {t.feedbacks.map((fb, i) => (
-                <FeedbackCard key={i}>
+                <Feedback key={i}>
+                  <p>{fb.comment}</p>
+                  <Author>
+                    {t.name}, {t.company}
+                  </Author>
                   <StarRating>{"★".repeat(fb.stars)}</StarRating>
-                  <p style={{ marginTop: "10px" }}>{fb.comment}</p>
-                  <p style={{ fontWeight: "bold", marginTop: "12px" }}>{fb.name}</p>
-                </FeedbackCard>
+                </Feedback>
               ))}
-            </FeedbackGrid>
-          </div>
-        ))}
+            </TestimonialCard>
+          ))}
+        </TestimonialsRow>
       </Wrapper>
 
       <Footer>
         <FooterLinks>
-          <a href="/">Home</a> | <a href="/courses">Courses</a> | <a href="/about">About</a> | <a href="/contact">Contact</a>
+          <a href="/">Home</a> | <a href="/courses">Courses</a> |{" "}
+          <a href="/about">About</a> | <a href="/contact">Contact</a>
         </FooterLinks>
         <Address>
-          NEOSPACE II BUILDING KINFRA TECHONO INDUSTRIAL PARK,<br />
-          Calicut University, Malappuram, Tirurangadi,<br />
+          NEOSPACE II BUILDING KINFRA TECHONO INDUSTRIAL PARK,
+          <br />
+          Calicut University, Malappuram, Tirurangadi,
+          <br />
           Kerala, India, 673635
         </Address>
         <div style={{ textAlign: "center", marginTop: "10px" }}>

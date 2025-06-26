@@ -5,26 +5,24 @@ import CountUp from "react-countup";
 
 const HomeSection = styled.div`
   width: 100%;
-  padding-top: 10vh; 
+  padding-top: 10vh;
   background-image: url("/Home.png");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center center;
-  position: relative;
+  background-position: center;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   gap: 30px;
-  min-height: 100vh;
 `;
 
 const HeroWrapper = styled.div`
-  padding-top: 50px;
   width: 100%;
-  height: 90vh;
+  height: auto;
+  padding: 80px 20px 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
   flex-direction: column;
   gap: 60px;
 `;
@@ -60,6 +58,27 @@ const HeroContent = styled.div`
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #158a68;
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 90%;
+
+    h1 {
+      font-size: 1.7rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+
+    button {
+      font-size: 0.95rem;
+      padding: 10px 20px;
+    }
   }
 `;
 
@@ -67,10 +86,14 @@ const ImpactSection = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
-  gap: 40px;
   flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+
+  @media (max-width: 768px) {
+    gap: 15px;
+    padding: 10px;
+  }
 `;
 
 const ImpactCard = styled.div`
@@ -80,7 +103,7 @@ const ImpactCard = styled.div`
   min-width: 220px;
   text-align: center;
   flex: 1;
-  max-width: 250px;
+  max-width: 220px;
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -92,16 +115,29 @@ const ImpactCard = styled.div`
   }
 
   h2 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: #006c45;
     margin-bottom: 10px;
     font-weight: 700;
   }
 
   p {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     color: #006c45;
     font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    flex: none;
+
+    h2 {
+      font-size: 1.6rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
   }
 `;
 
@@ -140,7 +176,6 @@ function Home() {
             <p>Countries</p>
           </ImpactCard>
           <ImpactCard>
-        
             <h2>
               <CountUp end={15} duration={3} />+
             </h2>
