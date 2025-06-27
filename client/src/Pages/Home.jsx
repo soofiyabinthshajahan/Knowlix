@@ -93,15 +93,14 @@ const HeroContent = styled.div`
 const ImpactSection = styled.div`
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 20px;
-  padding: 20px;
+  padding: 20px 0;
   flex-wrap: wrap;
 
   @media (max-width: 768px) {
     overflow-x: auto;
     flex-wrap: nowrap;
-    padding: 20px 5px;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
 
@@ -119,10 +118,15 @@ const ImpactCard = styled.div`
   text-align: center;
   flex: 0 0 auto;
   max-width: 220px;
+  margin-left: 10px;
+  scroll-snap-align: start;
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  scroll-snap-align: start;
+
+  &:first-child {
+    margin-left: 20px;
+  }
 
   svg {
     font-size: 2.5rem;
