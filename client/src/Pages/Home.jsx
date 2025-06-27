@@ -24,8 +24,6 @@ const HomeSection = styled.div`
   }
 `;
 
-
-
 const HeroWrapper = styled.div`
   width: 100%;
   height: auto;
@@ -96,13 +94,20 @@ const ImpactSection = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
   gap: 20px;
   padding: 20px;
+  flex-wrap: wrap;
 
   @media (max-width: 768px) {
-    gap: 15px;
-    padding: 10px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding: 20px 5px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 `;
 
@@ -112,11 +117,12 @@ const ImpactCard = styled.div`
   padding: 30px 20px;
   min-width: 220px;
   text-align: center;
-  flex: 1;
+  flex: 0 0 auto;
   max-width: 220px;
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  scroll-snap-align: start;
 
   svg {
     font-size: 2.5rem;
@@ -138,9 +144,6 @@ const ImpactCard = styled.div`
   }
 
   @media (max-width: 768px) {
-    max-width: 100%;
-    flex: none;
-
     h2 {
       font-size: 1.6rem;
     }
