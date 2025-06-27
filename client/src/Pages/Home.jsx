@@ -17,15 +17,15 @@ const HomeSection = styled.div`
   background-position: center;
 
   @media only screen and (max-width: 768px) {
-    min-height: 85vh; /* reduced height for tablets & below */
+   height: 85vh; 
   }
-
+ 
   @media only screen and (max-width: 480px) {
     background-image: url("https://images.pexels.com/photos/8923045/pexels-photo-8923045.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    min-height: 75vh; /* reduced height for smaller screens */
+    min-height: 65vh; /* reduced height for smaller screens */
   }
 `;
 
@@ -100,8 +100,8 @@ const ImpactSection = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  gap: 20px;
-  padding: 20px 0;
+  gap: 10px;
+  /* padding: 20px 0; */
   flex-wrap: wrap;
 
   @media (max-width: 768px) {
@@ -203,6 +203,12 @@ function Home() {
               <CountUp end={15} duration={3} />+
             </h2>
             <p>States Across India</p>
+          </ImpactCard>
+           <ImpactCard>
+            <h2>
+              <CountUp end={10} duration={3} />+
+            </h2>
+            <p>Curriculum</p>
           </ImpactCard>
           <ImpactCard>
             <h2>

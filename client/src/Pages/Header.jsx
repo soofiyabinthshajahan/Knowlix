@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { FiSearch, FiBell, FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi";
 
@@ -16,6 +16,10 @@ const HeaderSection = styled.header`
   z-index: 1000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
+  @media (max-width: 1024px) {
+    height: 6vh;
+  }
+
   @media (max-width: 768px) {
     background: rgba(255, 255, 255, 0.76);
     backdrop-filter: blur(10px);
@@ -28,11 +32,17 @@ const Logo = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  z-index: 1001;
 
   img.desktop-logo {
     width: 90px;
     height: 60px;
     object-fit: contain;
+
+    @media (max-width: 1024px) {
+      width: 80px;
+      height: 50px;
+    }
 
     @media (max-width: 768px) {
       display: none;
@@ -53,13 +63,24 @@ const Logo = styled.div`
 
 const SearchBar = styled.div`
   flex: 1;
-  max-width: 400px;
+  max-width: ${props => props.isExpanded ? '90%' : '400px'};
   display: flex;
   align-items: center;
   border: 2px solid rgba(15, 61, 46, 0.3);
   border-radius: 20px;
   padding: 6px 14px;
   margin: 0 20px;
+  transition: all 0.3s ease;
+  background: white;
+  z-index: 1000;
+
+  @media (max-width: 1024px) {
+    position: ${props => props.isExpanded ? 'absolute' : 'relative'};
+    left: ${props => props.isExpanded ? '5%' : 'auto'};
+    max-width: ${props => props.isExpanded ? '90%' : '300px'};
+    background: ${props => props.isExpanded ? 'white' : 'transparent'};
+    box-shadow: ${props => props.isExpanded ? '0 4px 20px rgba(0,0,0,0.1)' : 'none'};
+  }
 
   @media (max-width: 768px) {
     display: none;
@@ -85,7 +106,7 @@ const Navigation = styled.nav`
   align-items: center;
   gap: 25px;
 
-  @media (max-width: 992px) {
+  @media (max-width: 1024px) {
     display: none;
   }
 `;
@@ -95,9 +116,14 @@ const MobileMenuIcon = styled.div`
   font-size: 1.8rem;
   color: #0f3d2e;
   cursor: pointer;
+  z-index: 1001;
 
-  @media (max-width: 992px) {
+  @media (max-width: 1024px) {
     display: block;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
   }
 `;
 
@@ -108,9 +134,10 @@ const HeaderElements = styled.ul`
   margin: 0;
   padding: 0;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
     align-items: center;
+    gap: 15px;
   }
 `;
 
@@ -123,6 +150,10 @@ const Element = styled.li`
 
   &:hover {
     color: #158a68;
+  }
+
+  @media (max-width: 1024px) {
+    font-size: 1rem;
   }
 `;
 
@@ -140,8 +171,10 @@ const Button = styled.button`
     background-color: #158a68;
   }
 
-  @media (max-width: 768px) {
-    margin-top: 15px;
+  @media (max-width: 1024px) {
+    margin-top: 10px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
   }
 `;
 
@@ -160,11 +193,20 @@ const IconWrapper = styled.div`
       color: #22a884;
     }
   }
+
+  @media (max-width: 1024px) {
+    gap: 12px;
+    margin-top: 10px;
+
+    svg {
+      font-size: 18px;
+    }
+  }
 `;
 
 const MobileMenu = styled.div`
   position: absolute;
-  top: 10vh;
+  top: 8vh;
   left: 0;
   right: 0;
   background: rgba(255, 255, 255, 0.95);
@@ -174,14 +216,51 @@ const MobileMenu = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 768px) {
+    top: 6vh;
+    padding: 15px 5%;
+  }
+`;
+
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  display: ${props => props.show ? 'block' : 'none'};
 `;
 
 function Header() {
   const [isDark, setIsDark] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [searchExpanded, setSearchExpanded] = useState(false);
+  const searchRef = useRef(null);
 
   const toggleTheme = () => setIsDark(!isDark);
   const toggleMobileMenu = () => setShowMobileMenu(!showMobileMenu);
+
+  const handleSearchClick = () => {
+    if (window.innerWidth <= 1024) {
+      setSearchExpanded(true);
+    }
+  };
+
+  const handleClickOutside = (e) => {
+    if (searchRef.current && !searchRef.current.contains(e.target)) {
+      setSearchExpanded(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -195,9 +274,17 @@ function Header() {
           />
         </Logo>
 
-        <SearchBar>
+        <SearchBar 
+          ref={searchRef} 
+          isExpanded={searchExpanded}
+          onClick={handleSearchClick}
+        >
           <FiSearch color="#14432b" size={20} />
-          <SearchInput type="text" placeholder="Search..." />
+          <SearchInput 
+            type="text" 
+            placeholder="Search..." 
+            onFocus={() => window.innerWidth <= 1024 && setSearchExpanded(true)}
+          />
         </SearchBar>
 
         <Navigation>
@@ -248,6 +335,11 @@ function Header() {
           </IconWrapper>
         </MobileMenu>
       )}
+
+      <Overlay 
+        show={searchExpanded} 
+        onClick={() => setSearchExpanded(false)}
+      />
     </>
   );
 }

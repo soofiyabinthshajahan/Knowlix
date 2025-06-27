@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const categories = [
@@ -168,6 +168,11 @@ const Input = styled.input`
   border-radius: 8px;
   font-size: 1rem;
   width: 70%;
+  max-width: 400px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const Select = styled.select`
@@ -177,7 +182,7 @@ const Select = styled.select`
   font-size: 1rem;
 `;
 
-const CourseGrid = styled.div`
+const ResponsiveCourseGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 24px;
@@ -237,10 +242,45 @@ const ActionButton = styled.button`
   }
 `;
 
+const ShowMoreButton = styled.button`
+  padding: 12px 24px;
+  background-color: #00735c;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 30px auto 0;
+  display: block;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #005c49;
+  }
+`;
+
 function CoursePage() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
   const [category, setCategory] = useState("All");
+  const [visibleCourses, setVisibleCourses] = useState(3);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      // Reset visible courses when switching between mobile and desktop
+      if (window.innerWidth > 768) {
+        setVisibleCourses(courses.length);
+      } else {
+        setVisibleCourses(3);
+      }
+    };
+    
+    handleResize(); // Set initial value
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const filteredCourses = courses.filter((course) => {
     const matchesSearch = course.title
@@ -259,6 +299,14 @@ function CoursePage() {
 
     return matchesSearch && matchesFilter && matchesCategory;
   });
+
+  const displayCourses = isMobile 
+    ? filteredCourses.slice(0, visibleCourses)
+    : filteredCourses;
+
+  const handleShowMore = () => {
+    setVisibleCourses(prev => prev + 3);
+  };
 
   return (
     <PageWrapper>
@@ -290,37 +338,45 @@ function CoursePage() {
       {filteredCourses.length === 0 ? (
         <Title>No courses found. Try a different search or filter.</Title>
       ) : (
-        <CourseGrid>
-          {filteredCourses.map((course, index) => (
-            <Card key={index}>
-              <Image src={course.image} alt={course.title} />
-              <CourseTitle>{course.title}</CourseTitle>
-              {course.audience && (
+        <>
+          <ResponsiveCourseGrid>
+            {displayCourses.map((course, index) => (
+              <Card key={index}>
+                <Image src={course.image} alt={course.title} />
+                <CourseTitle>{course.title}</CourseTitle>
+                {course.audience && (
+                  <Info>
+                    <strong>Audience:</strong> {course.audience}
+                  </Info>
+                )}
+                {course.boards && (
+                  <Info>
+                    <strong>Details:</strong> {course.boards}
+                  </Info>
+                )}
                 <Info>
-                  <strong>Audience:</strong> {course.audience}
+                  <strong>Students Enrolled:</strong> {course.students}
                 </Info>
-              )}
-              {course.boards && (
                 <Info>
-                  <strong>Details:</strong> {course.boards}
+                  <strong>Rating:</strong> ⭐ {course.rating}
                 </Info>
-              )}
-              <Info>
-                <strong>Students Enrolled:</strong> {course.students}
-              </Info>
-              <Info>
-                <strong>Rating:</strong> ⭐ {course.rating}
-              </Info>
-              <Info>
-                <strong>Category:</strong> {course.category}
-              </Info>
-              <ButtonGroup>
-                <ActionButton>View Details</ActionButton>
-                <ActionButton>Enroll</ActionButton>
-              </ButtonGroup>
-            </Card>
-          ))}
-        </CourseGrid>
+                <Info>
+                  <strong>Category:</strong> {course.category}
+                </Info>
+                <ButtonGroup>
+                  <ActionButton>View Details</ActionButton>
+                  <ActionButton>Enroll</ActionButton>
+                </ButtonGroup>
+              </Card>
+            ))}
+          </ResponsiveCourseGrid>
+          
+          {isMobile && visibleCourses < filteredCourses.length && (
+            <ShowMoreButton onClick={handleShowMore}>
+              Show More Courses ({filteredCourses.length - visibleCourses} remaining)
+            </ShowMoreButton>
+          )}
+        </>
       )}
     </PageWrapper>
   );
