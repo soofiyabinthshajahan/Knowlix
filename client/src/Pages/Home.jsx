@@ -16,13 +16,19 @@ const HomeSection = styled.div`
   background-repeat: no-repeat;
   background-position: center;
 
+  @media only screen and (max-width: 768px) {
+    min-height: 85vh; /* reduced height for tablets & below */
+  }
+
   @media only screen and (max-width: 480px) {
     background-image: url("https://images.pexels.com/photos/8923045/pexels-photo-8923045.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    min-height: 75vh; /* reduced height for smaller screens */
   }
 `;
+
 
 const HeroWrapper = styled.div`
   width: 100%;
