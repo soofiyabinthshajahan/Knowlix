@@ -6,15 +6,25 @@ import CountUp from "react-countup";
 const HomeSection = styled.div`
   width: 100%;
   padding-top: 10vh;
-  background-image: url("/Home.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   gap: 30px;
+
+  background-image: url("/Home.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  @media only screen and (max-width: 480px) {
+    background-image: url("https://images.pexels.com/photos/8923045/pexels-photo-8923045.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 `;
+
+
 
 const HeroWrapper = styled.div`
   width: 100%;
