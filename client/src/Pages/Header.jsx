@@ -17,7 +17,7 @@ const HeaderSection = styled.header`
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
   @media (max-width: 768px) {
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.76);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     height: 6vh;
@@ -188,7 +188,11 @@ function Header() {
       <HeaderSection>
         <Logo>
           <img src="/Logo.jpg" alt="Logo" className="desktop-logo" />
-          <img src="/Logo-removebg-preview.png" alt="Mobile Logo" className="mobile-logo" />
+          <img
+            src="/Logo-removebg-preview.png"
+            alt="Mobile Logo"
+            className="mobile-logo"
+          />
         </Logo>
 
         <SearchBar>
@@ -209,7 +213,11 @@ function Header() {
           <Button>Book a Demo</Button>
           <IconWrapper>
             <FiBell />
-            {isDark ? <FiSun onClick={toggleTheme} /> : <FiMoon onClick={toggleTheme} />}
+            {isDark ? (
+              <FiSun onClick={toggleTheme} />
+            ) : (
+              <FiMoon onClick={toggleTheme} />
+            )}
           </IconWrapper>
         </Navigation>
 
@@ -232,7 +240,11 @@ function Header() {
           <Button>Book a Demo</Button>
           <IconWrapper>
             <FiBell />
-            {isDark ? <FiSun onClick={toggleTheme} /> : <FiMoon onClick={toggleTheme} />}
+            {isDark ? (
+              <FiSun onClick={toggleTheme} />
+            ) : (
+              <FiMoon onClick={toggleTheme} />
+            )}
           </IconWrapper>
         </MobileMenu>
       )}
