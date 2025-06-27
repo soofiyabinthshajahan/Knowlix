@@ -4,7 +4,7 @@ import { FiSearch, FiBell, FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi";
 
 const HeaderSection = styled.header`
   height: 10vh;
-  background: rgba(255, 255, 255, 0.98);
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -15,6 +15,13 @@ const HeaderSection = styled.header`
   right: 0;
   z-index: 1000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+  @media (max-width: 768px) {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    height: 6vh;
+  }
 `;
 
 const Logo = styled.div`
@@ -22,10 +29,25 @@ const Logo = styled.div`
   align-items: center;
   gap: 10px;
 
-  img {
+  img.desktop-logo {
     width: 90px;
     height: 60px;
     object-fit: contain;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  img.mobile-logo {
+    display: none;
+    width: 70px;
+    height: 50px;
+    object-fit: contain;
+
+    @media (max-width: 768px) {
+      display: block;
+    }
   }
 `;
 
@@ -145,7 +167,7 @@ const MobileMenu = styled.div`
   top: 10vh;
   left: 0;
   right: 0;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.95);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   padding: 20px 5%;
   z-index: 999;
@@ -165,7 +187,8 @@ function Header() {
     <>
       <HeaderSection>
         <Logo>
-          <img src="/Logo.jpg" alt="Logo" />
+          <img src="/Logo.jpg" alt="Logo" className="desktop-logo" />
+          <img src="/Logo-removebg-preview.png" alt="Mobile Logo" className="mobile-logo" />
         </Logo>
 
         <SearchBar>
